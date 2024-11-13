@@ -1,0 +1,293 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "contract AdminManager",
+                "name": "_adminManager",
+                "type": "address"
+            },
+            {
+                "internalType": "contract UserManager",
+                "name": "_userManager",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "reportId",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "resolvedBy",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "resolutionIpfsHash",
+                "type": "string"
+            }
+        ],
+        "name": "CaseResolved",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "reportId",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "reporter",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "ipfsHash",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "location",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "mediaIpfsHash",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "timestamp",
+                "type": "uint256"
+            }
+        ],
+        "name": "CrimeReported",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "adminManager",
+        "outputs": [
+            {
+                "internalType": "contract AdminManager",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_reportId",
+                "type": "uint256"
+            }
+        ],
+        "name": "getReport",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "ipfsHash",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "location",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "mediaIpfsHash",
+                "type": "string"
+            },
+            {
+                "internalType": "address",
+                "name": "reporter",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "timestamp",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "resolved",
+                "type": "bool"
+            },
+            {
+                "internalType": "address",
+                "name": "resolvedBy",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "resolutionIpfsHash",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "userAddress",
+                "type": "address"
+            }
+        ],
+        "name": "getReportIdsByUser",
+        "outputs": [
+            {
+                "internalType": "uint256[]",
+                "name": "",
+                "type": "uint256[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "reportCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_ipfsHash",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_location",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_mediaIpfsHash",
+                "type": "string"
+            }
+        ],
+        "name": "reportCrime",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "reports",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "ipfsHash",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "location",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "mediaIpfsHash",
+                "type": "string"
+            },
+            {
+                "internalType": "address",
+                "name": "reporter",
+                "type": "address"
+            },
+            {
+                "internalType": "address",
+                "name": "resolvedBy",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "timestamp",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bool",
+                "name": "resolved",
+                "type": "bool"
+            },
+            {
+                "internalType": "string",
+                "name": "resolutionIpfsHash",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_reportId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_resolutionIpfsHash",
+                "type": "string"
+            }
+        ],
+        "name": "resolveCase",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "userManager",
+        "outputs": [
+            {
+                "internalType": "contract UserManager",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]
