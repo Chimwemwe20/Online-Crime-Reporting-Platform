@@ -1,2 +1,2 @@
 # Online-Crime-Reporting-Platform
-A D-App used for Crowd Funding
+An Application that leverages blockchain technology to allow users to securely submit crime reports with media evidence, geological assistance and anonymous reporting.
