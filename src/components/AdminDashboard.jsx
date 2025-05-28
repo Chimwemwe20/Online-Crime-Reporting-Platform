@@ -72,15 +72,29 @@ const AdminDashboard = ({ account }) => {
       await resolveCase(reportId, resolutionMessage);
       toast.success('Case resolved successfully');
       await fetchReports();
-      setSelectedReport(null);
+      setSelectedReport(null); // Close the report details after resolving
     } catch (error) {
       console.error('Error resolving case:', error);
       toast.error('Failed to resolve case');
     }
   };
 
-  const handleLogout = () => {
-    navigate('/');
+  const handleLogout = async () => {
+    try {
+      if (typeof window.ethereum !== 'undefined') {
+        await window.ethereum.request({
+          method: "wallet_requestPermissions",
+          params: [{ eth_accounts: {} }]
+        });
+        // Clear any stored user data or tokens here if needed
+        // For example: localStorage.removeItem('userToken');
+      }
+      toast.success('Logged out successfully');
+      navigate('/');
+    } catch (error) {
+      console.error('Error during logout:', error);
+      toast.error('Failed to log out. Please try again.');
+    }
   };
 
   const filteredReports = reports[activeTab].filter(report => {
@@ -228,3 +242,4 @@ const AdminDashboard = ({ account }) => {
 };
 
 export default AdminDashboard;
+

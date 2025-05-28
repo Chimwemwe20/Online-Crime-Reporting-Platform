@@ -108,6 +108,12 @@ const ReportDetails = ({ report, onClose, onResolve, isAdmin }) => {
                 <User className="w-5 h-5 text-gray-500" />
                 <span className="text-gray-700">{report.isAnonymous ? 'Anonymous' : report.name}</span>
               </div>
+              {!report.isAnonymous && report.address && (
+                <div className="flex items-center gap-2 col-span-2">
+                  <MapPin className="w-5 h-5 text-gray-500" />
+                  <span className="text-gray-700">Reporter's Address: {report.address}</span>
+                </div>
+              )}
             </div>
 
             {/* Description */}
@@ -211,3 +217,4 @@ const ReportDetails = ({ report, onClose, onResolve, isAdmin }) => {
 };
 
 export default ReportDetails;
+

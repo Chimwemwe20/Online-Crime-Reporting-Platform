@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Shield, LogIn, UserPlus } from 'lucide-react';
-import { initialize, isRegistered, isAdmin, getOwner } from '../ContractInteractions';
+import { initialize, isRegistered, isAdmin, getOwner, registerUser } from '../ContractInteractions';
 
 function Authentication({ onAccountChange, isAuthenticated, isAdmin: isAdminUser }) {
   const navigate = useNavigate();
@@ -58,8 +58,13 @@ function Authentication({ onAccountChange, isAuthenticated, isAdmin: isAdminUser
       }
 
       if (isRegistering && !userRegistered) {
-        await registerUser();
-        toast.success('Registration successful!');
+        try {
+          await registerUser(currentAccount);
+          toast.success('Registration successful!');
+        } catch (error) {
+          toast.error(`Registration failed: ${error.message}`);
+          return;
+        }
       }
 
       const adminStatus = await isAdmin(currentAccount);
@@ -120,3 +125,4 @@ function Authentication({ onAccountChange, isAuthenticated, isAdmin: isAdminUser
 }
 
 export default Authentication;
+

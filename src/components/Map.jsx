@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Map, { Marker, NavigationControl } from 'react-map-gl';
 import { MapPin, X, Crosshair, Search } from 'lucide-react';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -10,34 +10,46 @@ const DEFAULT_VIEWPORT = {
 };
 
 const MapComponent = ({ onLocationSelect, onClose, initialLocation, readOnly = false }) => {
-const [viewport, setViewport] = useState(() => {
-  if (initialLocation && typeof initialLocation === 'string') {
-    const [lat, lng] = initialLocation.split(',').map(coord => {
-      const num = parseFloat(coord);
-      return !isNaN(num) ? num : null;
-    });
-    if (lat !== null && lng !== null) {
-      return { latitude: lat, longitude: lng, zoom: 14 };
-    }
-  }
-  return DEFAULT_VIEWPORT;
-});
-
-const [marker, setMarker] = useState(() => {
-  if (initialLocation && typeof initialLocation === 'string') {
-    const [lat, lng] = initialLocation.split(',').map(coord => {
-      const num = parseFloat(coord);
-      return !isNaN(num) ? num : null;
-    });
-    if (lat !== null && lng !== null) {
-      return { latitude: lat, longitude: lng };
-    }
-  }
-  return null;
-});
-
-
+  const [viewport, setViewport] = useState(DEFAULT_VIEWPORT);
+  const [marker, setMarker] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const centerOnUserLocation = useCallback(() => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          if (!isNaN(latitude) && !isNaN(longitude)) {
+            setViewport({
+              latitude,
+              longitude,
+              zoom: 14
+            });
+            setMarker({ latitude, longitude });
+          }
+        },
+        (error) => console.error('Error getting location:', error),
+        { enableHighAccuracy: true }
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (initialLocation && typeof initialLocation === 'string') {
+      const [lat, lng] = initialLocation.split(',').map(coord => {
+        const num = parseFloat(coord);
+        return !isNaN(num) ? num : null;
+      });
+      if (lat !== null && lng !== null) {
+        setViewport({ latitude: lat, longitude: lng, zoom: 14 });
+        setMarker({ latitude: lat, longitude: lng });
+      } else {
+        centerOnUserLocation();
+      }
+    } else {
+      centerOnUserLocation();
+    }
+  }, [initialLocation, centerOnUserLocation]);
 
   const handleMapClick = useCallback((event) => {
     if (readOnly) return;
@@ -81,26 +93,6 @@ const [marker, setMarker] = useState(() => {
       }
     } catch (error) {
       console.error('Geocoding error:', error);
-    }
-  };
-
-  const centerOnUserLocation = () => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          if (!isNaN(latitude) && !isNaN(longitude)) {
-            setViewport({
-              latitude,
-              longitude,
-              zoom: 14
-            });
-            setMarker({ latitude, longitude });
-          }
-        },
-        (error) => console.error('Error getting location:', error),
-        { enableHighAccuracy: true }
-      );
     }
   };
 
@@ -208,3 +200,4 @@ const [marker, setMarker] = useState(() => {
 };
 
 export default MapComponent;
+
